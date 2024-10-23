@@ -31,5 +31,5 @@ RUN apt-get update && apt-get install -y \
     ls / && \
     ls ~/ && \
     cd /gamd-openmm && \
-    setup.py install
+    /gamd-openmm/setup.py install
     #/GW_Python/bin/pip3 install torch torchvision torchaudio && \

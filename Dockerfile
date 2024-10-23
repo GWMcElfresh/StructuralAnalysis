@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y \
     make install && \
     /GW_Python/bin/pip3 install OpenMM && \
     git clone https://github.com/MiaoLab20/gamd-openmm.git && \
-    cd gamd-openmm && \
+    ls / && \
+    ls ~/ && \
+    cd ~/gamd-openmm && \
     setup.py install
     #/GW_Python/bin/pip3 install torch torchvision torchaudio && \

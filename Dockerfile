@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
     make install && \
     /GW_Python/bin/pip3 install OpenMM && \
     #this symlink should hopefully allow gamd-openmm to install to GW_Python
-    ln -s /GW_Python/bin/python /usr/bin/env:/python && \
+    ln -s /GW_Python/bin/python /usr/bin/env/python && \
     git clone https://github.com/MiaoLab20/gamd-openmm.git /gamd-openmm && \
     ls / && \
     ls ~/ && \

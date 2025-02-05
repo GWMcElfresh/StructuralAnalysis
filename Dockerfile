@@ -1,40 +1,43 @@
-FROM nvcr.io/hpc/gromacs:2023.2
+FROM nvidia/cuda:11.7.1-devel-ubuntu20.04
 
-ARG DEBIAN_FRONTEND=noninteractive
-
-## grab an OpenMM installation
 RUN apt-get update && apt-get install -y \
     build-essential \
-    libssl-dev \
-    uuid-dev \
-    libgpgme11-dev \
-    squashfs-tools \
-    libseccomp-dev \
-    pkg-config \
-    git-all \
+    cmake \
+    gfortran \
+    flex \
+    bison \
+    tcsh \
+    csh \
+    xorg-dev \
+    libxmu-dev \
+    libxi-dev \
     wget \
-    libbz2-dev \
-    zlib1g-dev \
-    python3-dev \
-    libffi-dev && \
-    mkdir /GW_Python && \
-    cd /GW_Python && \
-    wget http://www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz && \
-    tar -zxvf Python-3.8.10.tgz && \
-    cd Python-3.8.10 && \
-    ./configure --prefix=/GW_Python && \ 
-    cd /GW_Python/Python-3.8.10 && \
-    make && \
-    make install && \
-    /GW_Python/bin/pip3 install OpenMM && \
-    #this symlink should hopefully allow gamd-openmm to install to GW_Python
-    ls /GW_Python/bin/ && \
-    /GW_Python/bin/pip3 install --upgrade pip setuptools && \
-    /GW_Python/bin/pip3 install matplotlib && \
-    ln -s /GW_Python/bin/python3 /usr/bin/python && \
-    git clone https://github.com/MiaoLab20/gamd-openmm.git /gamd-openmm && \
-    ls / && \
-    ls ~/ && \
-    cd /gamd-openmm && \
-    /gamd-openmm/setup.py install
-    #/GW_Python/bin/pip3 install torch torchvision torchaudio && \
+    git \
+    python3 python3-pip \
+    libnetcdf-dev \
+    libopenmpi-dev openmpi-bin && \
+    rm -rf /var/lib/apt/lists/*
+
+#AmberTools22
+WORKDIR /opt
+RUN wget https://ambermd.org/downloads/AmberTools22.tar.bz2 && \
+    tar -xjf AmberTools22.tar.bz2 && \
+    rm AmberTools22.tar.bz2
+
+WORKDIR /opt/amber22
+RUN ./configure gnu && \
+    make install -j$(nproc)
+
+ENV AMBERHOME=/opt/amber22
+ENV PATH="$AMBERHOME/bin:$PATH"
+ENV LD_LIBRARY_PATH="$AMBERHOME/lib:$LD_LIBRARY_PATH"
+
+#Test installation
+RUN pmemd -O -h && \
+    cpptraj -h
+
+#python
+RUN pip3 install numpy pandas matplotlib seaborn mdtraj
+
+WORKDIR /workspace
+CMD ["/bin/bash"]

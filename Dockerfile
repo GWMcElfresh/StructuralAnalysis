@@ -35,7 +35,7 @@ RUN conda create -n amber-env python=3.9 && \
     echo "conda activate amber-env" >> ~/.bashrc
 
 #get latest ambertools from conda
-RUN conda install -n amber-env -c conda-forge ambertools openmm mdtraj
+RUN /opt/conda/bin/conda install -n amber-env -c conda-forge ambertools openmm mdtraj
 
 #set up environment
 ENV AMBERHOME="/opt/conda/envs/amber-env"
@@ -43,8 +43,8 @@ ENV PATH="$AMBERHOME/bin:$PATH"
 ENV LD_LIBRARY_PATH="$AMBERHOME/lib:$LD_LIBRARY_PATH"
 
 #verify installation
-RUN conda run -n amber-env pmemd -O -h && \
-    conda run -n amber-env cpptraj -h
+RUN /opt/conda/bin/conda run -n amber-env pmemd -O -h && \
+    /opt/conda/bin/conda run -n amber-env cpptraj -h
 
 #reset to default workspace
 WORKDIR /workspace

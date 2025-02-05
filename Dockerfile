@@ -22,15 +22,13 @@ RUN apt-get update && apt-get install -y \
 
 #AmberTools22
 WORKDIR /opt
-RUN wget https://ambermd.org/downloads/AmberTools22.tar.bz2 && \
-    tar -xjf AmberTools22.tar.bz2 && \
-    rm AmberTools22.tar.bz2
+RUN conda install -c conda-forge ambertools=24
 
-WORKDIR /opt/amber22
+WORKDIR /opt/amber24
 RUN ./configure gnu && \
     make install -j$(nproc)
 
-ENV AMBERHOME=/opt/amber22
+ENV AMBERHOME=/opt/amber24
 ENV PATH="$AMBERHOME/bin:$PATH"
 ENV LD_LIBRARY_PATH="$AMBERHOME/lib:$LD_LIBRARY_PATH"
 

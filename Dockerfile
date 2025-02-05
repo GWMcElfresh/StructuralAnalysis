@@ -32,13 +32,13 @@ ENV PATH=/opt/conda/bin:$PATH
 
 #AmberTools24
 WORKDIR /opt
-RUN conda install -c conda-forge ambertools=24
+RUN conda install -c conda-forge ambertools
 
-WORKDIR /opt/amber24
+WORKDIR /opt/amber23
 RUN ./configure gnu && \
     make install -j$(nproc)
 
-ENV AMBERHOME=/opt/amber24
+ENV AMBERHOME=/opt/amber23
 ENV PATH="$AMBERHOME/bin:$PATH"
 ENV LD_LIBRARY_PATH="$AMBERHOME/lib:$LD_LIBRARY_PATH"
 

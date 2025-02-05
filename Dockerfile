@@ -20,7 +20,17 @@ RUN apt-get update && apt-get install -y \
     libopenmpi-dev openmpi-bin && \
     rm -rf /var/lib/apt/lists/*
 
-#AmberTools22
+#add conda
+# Install Miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /miniconda.sh && \
+    chmod +x /miniconda.sh && \
+    /miniconda.sh -b -p /opt/conda && \
+    rm /miniconda.sh
+
+#add conda to PATH
+ENV PATH=/opt/conda/bin:$PATH
+
+#AmberTools24
 WORKDIR /opt
 RUN conda install -c conda-forge ambertools=24
 

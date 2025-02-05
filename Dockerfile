@@ -7,18 +7,12 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     gfortran \
-    flex \
-    bison \
-    tcsh \
-    csh \
-    xorg-dev \
-    libxmu-dev \
-    libxi-dev \
     wget \
     git \
     libnetcdf-dev \
-    libopenmpi-dev openmpi-bin && \
-    rm -rf /var/lib/apt/lists/*
+    libopenmpi-dev openmpi-bin \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
 
 #setup conda
 WORKDIR /opt
@@ -31,20 +25,14 @@ ENV PATH="/opt/conda/bin:$PATH"
 RUN conda init && conda config --set always_yes yes
 
 #activate conda environment (python 3.9)
-RUN conda create -n amber-env python=3.9 && \
-    echo "conda activate amber-env" >> ~/.bashrc
+RUN conda create -n openmm-env python=3.9 && \
+    echo "conda activate openmm-env" >> ~/.bashrc
 
 #get latest ambertools from conda
-RUN /opt/conda/bin/conda install -n amber-env -c conda-forge ambertools openmm mdtraj
+RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn
 
-#set up environment
-ENV AMBERHOME="/opt/conda/envs/amber-env"
-ENV PATH="$AMBERHOME/bin:$PATH"
-ENV LD_LIBRARY_PATH="$AMBERHOME/lib:$LD_LIBRARY_PATH"
-
-#verify installation
-RUN /opt/conda/bin/conda run -n amber-env pmemd -O -h && \
-    /opt/conda/bin/conda run -n amber-env cpptraj -h
+#verify install:
+RUN conda run -n openmm-env python -c "import openmm; print(openmm.version.version)"
 
 #reset to default workspace
 WORKDIR /workspace

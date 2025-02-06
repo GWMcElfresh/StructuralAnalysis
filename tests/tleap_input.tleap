@@ -1,4 +1,0 @@
-source leaprc.protein.ff14SB
-test = sequence { ACE ALA NME }
-saveAmberParm test test.prmtop test.inpcrd
-quit

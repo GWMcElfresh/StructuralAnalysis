@@ -1,0 +1,24 @@
+name: OpenMM MD Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+
+    - name: Install OpenMM
+      run: |
+        pip install openmm pytest
+
+    - name: Run OpenMM Unit Test
+      run: |
+        pytest test_openmm_md.py

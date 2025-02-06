@@ -15,10 +15,21 @@ jobs:
       with:
         python-version: "3.9"
 
-    - name: Install OpenMM
+    - name: Set up conda
       run: |
-        pip install openmm pytest
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
+        bash miniconda.sh -b -p /opt/conda && \
+        rm miniconda.sh
+
+    - name: Install OpenMM & Dependencies in Conda Env
+      run: |
+        conda create -n openmm-env python=3.9 && \
+        echo "conda activate openmm-env" >> ~/.bashrc
+        conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn
 
     - name: Run OpenMM Unit Test
       run: |
+        cd tests
+        tleap -f tleap_input.leap
+        conda activate openmm-env
         pytest test_openmm_md.py

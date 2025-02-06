@@ -1,6 +1,10 @@
 name: OpenMM MD Test
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, dev ]
+  pull_request:
 
 jobs:
   test:

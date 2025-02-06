@@ -32,13 +32,10 @@ jobs:
         echo "conda activate openmm-env" >> ~/.bashrc
         conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn
 
-    - name: Initialize Conda
-      run: |
-        conda init bash && source ~/.bashrc
-
     - name: Create AA peptide and Run OpenMM Unit Test
       run: |
         cd tests
+        conda init bash && source ~/.bashrc
         conda activate openmm-env
         python3 generate_alanine_dipeptide.py
         pytest test_openmm_md.py

@@ -23,6 +23,8 @@ jobs:
 
     - name: Install OpenMM & Dependencies in Conda Env
       run: |
+        sudo apt-get update
+        sudo apt-get install -y ambertools
         conda create -n openmm-env python=3.9 && \
         echo "conda activate openmm-env" >> ~/.bashrc
         conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn

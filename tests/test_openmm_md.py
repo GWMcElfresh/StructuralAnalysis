@@ -62,6 +62,7 @@ def run_md_simulation():
 
 # Run the test
 @pytest.mark.parametrize("test_name", ["OpenMM MD Simulation"])
-def test_md_run(run_md_simulation):
+def test_md_run(test_name, run_md_simulation):
     """Test if the MD simulation completes and generates expected files."""
+    print(f"Running test: {test_name}")
     pass  # The fixture runs automatically and asserts success

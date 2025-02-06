@@ -1,41 +1,33 @@
 from openmm.app import *
 from openmm import *
 from openmm.unit import *
-import os
 
-# Build alanine dipeptide molecule manually with terminal groups
+# Build alanine dipeptide molecule manually
 pdb_str = """\
-ATOM      1  N   NALA    1      -0.677  -0.395   0.000  1.00  0.00           N  
-ATOM      2  CA  NALA    1       0.677  -0.395   0.000  1.00  0.00           C  
-ATOM      3  C   NALA    1       1.210   0.935   0.000  1.00  0.00           C  
-ATOM      4  O   NALA    1       0.438   1.897   0.000  1.00  0.00           O  
-ATOM      5  CB  NALA    1       1.210  -1.312   1.200  1.00  0.00           C  
-ATOM      6  HN  NALA    1      -1.210  -1.312  -1.200  1.00  0.00           H  
-ATOM      7  HA  NALA    1       1.210  -1.312  -1.200  1.00  0.00           H  
-ATOM      8  HB1 NALA    1       2.354  -1.312   1.200  1.00  0.00           H  
-ATOM      9  HB2 NALA    1       0.677  -2.354   1.200  1.00  0.00           H  
-ATOM     10  HB3 NALA    1       1.210  -1.312   2.354  1.00  0.00           H  
-ATOM     11  N   CALA    2       2.677   1.210   0.000  1.00  0.00           N  
-ATOM     12  CA  CALA    2       3.210   2.540   0.000  1.00  0.00           C  
-ATOM     13  C   CALA    2       4.677   2.815   0.000  1.00  0.00           C  
-ATOM     14  O   CALA    2       5.210   3.815   0.000  1.00  0.00           O  
+ATOM      1  N   ALA     1      -0.677  -0.395   0.000  1.00  0.00           N  
+ATOM      2  CA  ALA     1       0.677  -0.395   0.000  1.00  0.00           C  
+ATOM      3  C   ALA     1       1.210   0.935   0.000  1.00  0.00           C  
+ATOM      4  O   ALA     1       0.438   1.897   0.000  1.00  0.00           O  
+ATOM      5  CB  ALA     1       1.210  -1.312   1.200  1.00  0.00           C  
+ATOM      6  N   ALA     2       2.677   1.210   0.000  1.00  0.00           N  
+ATOM      7  CA  ALA     2       3.210   2.540   0.000  1.00  0.00           C  
+ATOM      8  C   ALA     2       4.677   2.815   0.000  1.00  0.00           C  
+ATOM      9  O   ALA     2       5.210   3.815   0.000  1.00  0.00           O  
 TER
 END
 """
 
-# Save the PDB file
+# Save PDB file
 with open("alanine.pdb", "w") as f:
     f.write(pdb_str)
 
 # Load the PDB into OpenMM
 pdb = PDBFile("alanine.pdb")
-
-# Load force field
 forcefield = ForceField('amber14-all.xml', 'amber14/tip3p.xml')
 
-# Use Modeller to add missing hydrogens and terminal groups
+# Use Modeller to automatically add missing hydrogen and correct terminal groups
 modeller = Modeller(pdb.topology, pdb.positions)
-modeller.addHydrogens(forcefield)
+modeller.addHydrogens(forcefield, pH=7.0)  # Adjusts terminal groups correctly
 
 # Create system
 system = forcefield.createSystem(modeller.topology, 

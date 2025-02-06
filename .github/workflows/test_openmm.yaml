@@ -30,13 +30,11 @@ jobs:
         sudo apt-get update
         conda create -n openmm-env python=3.9 && \
         echo "conda activate openmm-env" >> ~/.bashrc
-        conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn
+        conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn pytest
 
     - name: Create AA peptide and Run OpenMM Unit Test
       run: |
         cd tests
-        conda init bash && source ~/.bashrc
-        conda activate openmm-env
-        python3 generate_alanine_dipeptide.py
-        pytest test_openmm_md.py
+        conda run -n openmm-env python3 generate_alanine_dipeptide.py
+        conda run -n openmm-env pytest test_openmm_md.py
       shell: bash -l {0}

@@ -2,20 +2,13 @@ from openmm.app import *
 from openmm import *
 from openmm.unit import *
 
-# Create alanine dipeptide (ACE-ALA-NME)
-residues = ['ACE', 'ALA', 'NME']
-topology = Topology()
-chain = topology.addChain()
+pdb = PDBFile('ala-dipeptide.pdb')  # You can download this PDB or create it using a tool like Avogadro
 
-for res in residues:
-    topology.addResidue(res, chain)
+modeller = Modeller(pdb.topology, pdb.positions)
 
-# Load force field
-forcefield = ForceField('amber14-all.xml', 'amber14/tip3p.xml')
-
-# Generate positions with Modeller
-modeller = Modeller(topology, [])
-modeller.addHydrogens(forcefield)  # Adds missing hydrogens
+# Add hydrogens and solvent if needed
+modeller.addHydrogens(forcefield=ForceField('amber14-all.xml', 'amber14/tip3pfb.xml'))
+modeller.addSolvent(forcefield=ForceField('amber14-all.xml', 'amber14/tip3pfb.xml'), padding=1.0*nanometer)
 
 # Create system
 system = forcefield.createSystem(modeller.topology, 

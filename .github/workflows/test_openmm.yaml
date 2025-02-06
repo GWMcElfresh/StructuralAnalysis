@@ -42,3 +42,4 @@ jobs:
         conda activate openmm-env
         python3 generate_alanine_dipeptide.py
         pytest test_openmm_md.py
+      shell: bash -l {0}

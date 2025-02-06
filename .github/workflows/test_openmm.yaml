@@ -33,8 +33,8 @@ jobs:
         conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn
 
     - name: Initialize Conda
-        run: |
-          conda init bash && source ~/.bashrc
+      run: |
+        conda init bash && source ~/.bashrc
 
     - name: Create AA peptide and Run OpenMM Unit Test
       run: |

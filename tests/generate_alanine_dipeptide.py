@@ -1,5 +1,4 @@
-from openmm.app import PDBFile, Modeller, PDBFile, AmberPrmtopFile, AmberInpcrdFile, Simulation
-from openmm.app.forcefield import ForceField
+from openmm.app import forcefield, PDBFile, Modeller, PDBFile, AmberPrmtopFile, AmberInpcrdFile, Simulation
 from openmm import *
 from openmm.unit import *
 
@@ -12,7 +11,7 @@ modeller.addHydrogens(forcefield=ForceField('amber14-all.xml', 'amber14/tip3pfb.
 modeller.addSolvent(forcefield=ForceField('amber14-all.xml', 'amber14/tip3pfb.xml'), padding=1.0*nanometer)
 
 # Create system
-system = forcefield.createSystem(modeller.topology, 
+system = forcefield.ForceField.createSystem(modeller.topology, 
                                  nonbondedMethod=PME, 
                                  nonbondedCutoff=1*nanometer, 
                                  constraints=HBonds)

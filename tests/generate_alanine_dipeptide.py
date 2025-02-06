@@ -1,4 +1,5 @@
-from openmm.app import *
+from openmm.app import PDBFile, Modeller, PDBFile, AmberPrmtopFile, AmberInpcrdFile, Simulation
+from openmm.app.forcefield import ForceField
 from openmm import *
 from openmm.unit import *
 

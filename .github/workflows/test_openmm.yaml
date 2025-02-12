@@ -40,7 +40,7 @@ jobs:
 
     - name: Create AA peptide and Run OpenMM Unit Test
       run: |
-        conda activate openmm-env
+        source activate openmm-env
         cd tests
         python3 generate_alanine_dipeptide.py
         pytest test_openmm_md.py

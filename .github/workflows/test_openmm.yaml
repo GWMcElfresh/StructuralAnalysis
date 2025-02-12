@@ -19,13 +19,16 @@ jobs:
       with:
         python-version: "3.9"
 
+
     - name: Install Miniconda
       run: |
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         bash miniconda.sh -b -p $HOME/miniconda
         rm miniconda.sh
         echo "$HOME/miniconda/bin" >> $GITHUB_PATH
-
+    - name: Symlink c++ lib
+      run: |
+        ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ${CONDA_PREFIX}/lib/libstdc++.so.6
     - name: Initialize Conda
       run: |
         source $HOME/miniconda/bin/activate

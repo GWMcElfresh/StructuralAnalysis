@@ -26,9 +26,7 @@ jobs:
         bash miniconda.sh -b -p $HOME/miniconda
         rm miniconda.sh
         echo "$HOME/miniconda/bin" >> $GITHUB_PATH
-    - name: Symlink c++ lib
-      run: |
-        sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ${CONDA_PREFIX}/lib/libstdc++.so.6
+
     - name: Initialize Conda
       run: |
         source $HOME/miniconda/bin/activate
@@ -40,6 +38,10 @@ jobs:
         conda create -y -n openmm-env python=3.9
         source activate openmm-env
         conda install -y -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn pytest
+
+    - name: Symlink c++ lib
+      run: |
+        sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /home/runner/miniconda/envs/openmm-env/lib/python3.9/site-packages/openmm/../../../libstdc++.so.6
 
     - name: Create AA peptide and Run OpenMM Unit Test
       run: |

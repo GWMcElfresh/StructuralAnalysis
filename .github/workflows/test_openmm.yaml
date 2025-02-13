@@ -1,0 +1,57 @@
+name: OpenMM MD Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+
+
+    - name: Install Miniconda
+      run: |
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        bash miniconda.sh -b -p $HOME/miniconda
+        rm miniconda.sh
+        echo "$HOME/miniconda/bin" >> $GITHUB_PATH
+
+    - name: Initialize Conda
+      run: |
+        source $HOME/miniconda/bin/activate
+        conda init bash
+        source ~/.bashrc
+
+    - name: Install OpenMM & Dependencies in Conda Env
+      run: |
+        conda create -y -n openmm-env python=3.9
+        source activate openmm-env
+        conda install -y -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn mdanalysis pytest
+
+    - name: Symlink c++ lib
+      run: |
+        sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /home/runner/miniconda/envs/openmm-env/lib/python3.9/site-packages/openmm/../../../libstdc++.so.6
+
+    - name: Create AA peptide and Run OpenMM Unit Test
+      run: |
+        source activate openmm-env
+        cd tests
+        python3 generate_alanine_dipeptide.py
+        pytest test_openmm_md.py
+
+    - name: TCR MD test
+      run: |
+        source activate openmm-env
+        cd tests
+        pytest tcr_sim.py

@@ -36,8 +36,7 @@ RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy sc
     
 
 #verify install:
-RUN source activate openmm-env && \
-     python3 -c "import openmm; print(openmm.version.version)"
+RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'
 
 #reset to default workspace
 WORKDIR /workspace

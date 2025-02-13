@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 def run_md_simulation():
     """Runs a short OpenMM MD simulation and checks for successful execution."""
-    pdb_file = 'AF-Q30677-F1-model_v4.pdb'
+    pdb_file = 'testdata/AF-Q30677-F1-model_v4.pdb'
     output_dcd = 'output.dcd'
     output_log = 'output.log'
 

@@ -7,7 +7,7 @@ import MDAnalysis as mda
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+@pytest.fixture
 def run_tcr_simulation():
     """Runs a short OpenMM MD simulation and checks for successful execution."""
     pdb_file = 'AF-Q30677-F1-model_v4.pdb'

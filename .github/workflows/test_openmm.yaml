@@ -49,6 +49,7 @@ jobs:
         cd tests
         python3 generate_alanine_dipeptide.py
         pytest test_openmm_md.py
+
     - name: TCR MD test
       run: |
         source activate openmm-env

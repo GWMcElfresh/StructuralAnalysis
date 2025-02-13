@@ -37,7 +37,7 @@ jobs:
       run: |
         conda create -y -n openmm-env python=3.9
         source activate openmm-env
-        conda install -y -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn pytest
+        conda install -y -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn mdanalysis pytest
 
     - name: Symlink c++ lib
       run: |

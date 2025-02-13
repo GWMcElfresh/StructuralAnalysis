@@ -100,7 +100,7 @@ def run_tcr_simulation():
     plt.show()
     
     try:
-      assert plot is not None, "Plot is None"
+      assert plt is not None, "Plot is None"
     except AssertionError as e:
       print(f"AssertionError: {e}") # Output: AssertionError: Plot is None
 

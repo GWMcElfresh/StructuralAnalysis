@@ -1,4 +1,5 @@
 import os
+import pytest
 from openmm.app import *
 from openmm import *
 from openmm.unit import *
@@ -6,8 +7,8 @@ import MDAnalysis as mda
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def run_md_simulation():
+@pytest.fixture
+def run_tcr_simulation():
     """Runs a short OpenMM MD simulation and checks for successful execution."""
     pdb_file = 'testdata/AF-Q30677-F1-model_v4.pdb'
     output_dcd = 'output.dcd'

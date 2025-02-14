@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     git \
     libnetcdf-dev \
+    libstdc++6 \
     libopenmpi-dev openmpi-bin \
     libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*

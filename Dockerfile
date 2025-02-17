@@ -31,10 +31,10 @@ RUN conda create -n openmm-env python=3.9 && \
     echo "conda activate openmm-env" >> ~/.bashrc
 
 #get latest ambertools from conda
-RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn mdanalysis && \
+RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy scipy pandas matplotlib seaborn mdanalysis seaborn libstdcxx-ng && \
 #symlink c++ lib for `GLIBCXX_3.4.30' not found
     sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/envs/openmm-env/lib/python3.9/site-packages/openmm/../../../libstdc++.so.6
-    
+
 
 #verify install:
 RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'

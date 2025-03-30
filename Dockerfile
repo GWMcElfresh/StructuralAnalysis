@@ -41,7 +41,8 @@ RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy sc
     sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/envs/openmm-env/lib/
 
 #install a vina env
-RUN conda create -n vina python=3.9.21 && \
+RUN conda init bash && \
+    conda create -n vina python=3.9.21 && \
     conda activate vina && \
     conda config --env --add channels conda-forge && \
     conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \

@@ -40,9 +40,14 @@ RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy sc
 #symlink c++ lib for `GLIBCXX_3.4.30' not found
     sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/envs/openmm-env/lib/
 
+#conda init for the vina image
+RUN conda init bash
+
+#reload shell
+SHELL ["bash", "-c"]
+
 #install a vina env
-RUN conda init bash && \
-    conda create -n vina python=3.9.21 && \
+RUN conda create -n vina python=3.9.21 && \
     conda activate vina && \
     conda config --env --add channels conda-forge && \
     conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \

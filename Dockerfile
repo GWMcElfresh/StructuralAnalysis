@@ -47,11 +47,12 @@ RUN conda init bash
 SHELL ["bash", "-c"]
 
 #install a vina env
-RUN conda create -n vina python=3.9.21 && \
+RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
+    conda create -n vina python=3.9.21 && \
     conda activate vina && \
     conda config --env --add channels conda-forge && \
     conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \
-    pip install vina
+    pip install vina"
 
 #verify install:
 RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'

@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     apt-get update && apt-get install -y \
     gcc-11 g++-11 libstdc++6 \
     build-essential \
+    libboost-all-dev swig \
     sudo \
     cmake \
     gfortran \
@@ -17,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libnetcdf-dev \
     libopenmpi-dev openmpi-bin \
     libgl1-mesa-glx \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 #setup conda
@@ -30,7 +32,7 @@ ENV PATH="/opt/conda/bin:$PATH"
 RUN conda init && conda config --set always_yes yes
 
 #activate conda environment (python 3.9)
-RUN conda create -n openmm-env python=3.9 && \
+RUN conda create -n openmm-env python=3.9.21 && \
     echo "conda activate openmm-env" >> ~/.bashrc
 
 #get latest ambertools from conda
@@ -38,7 +40,12 @@ RUN conda install -n openmm-env -c conda-forge openmm ambertools mdtraj numpy sc
 #symlink c++ lib for `GLIBCXX_3.4.30' not found
     sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /opt/conda/envs/openmm-env/lib/
 
-
+#install a vina env
+RUN conda create -n vina python=3.9.21 && \
+    conda activate vina && \
+    conda config --env --add channels conda-forge && \
+    conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \
+    pip install vina
 
 #verify install:
 RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'

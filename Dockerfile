@@ -19,7 +19,20 @@ RUN apt-get update && apt-get install -y \
     libopenmpi-dev openmpi-bin \
     libgl1-mesa-glx \
     vim \
+    python2.7 \
+    tk-dev \
+    tcl-dev \
     && rm -rf /var/lib/apt/lists/*
+
+#setup MGLTools (requires python 2.7 - oof)
+RUN wget https://ccsb.scripps.edu/mgltools/download/462/mgltools_x86_64Linux2_1.5.7.tar.gz && \
+    tar -xvzf mgltools_x86_64Linux2_1.5.7.tar.gz && \
+    cd mgltools_x86_64Linux2_1.5.7 && \
+    yes yes | ./install.sh && \
+    rm ../mgltools_x86_64Linux2_1.5.7.tar.gz
+
+#pop MGLTools into PATH
+ENV PATH="/opt/mgltools_x86_64Linux2_1.5.7/bin:/opt/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24:$PATH"
 
 #setup conda
 WORKDIR /opt

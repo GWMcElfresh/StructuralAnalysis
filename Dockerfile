@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 #setup MGLTools (requires python 2.7 - oof)
+WORKDIR /opt
 RUN wget https://ccsb.scripps.edu/mgltools/download/462/mgltools_x86_64Linux2_1.5.7.tar.gz && \
     tar -xvzf mgltools_x86_64Linux2_1.5.7.tar.gz && \
     cd mgltools_x86_64Linux2_1.5.7 && \

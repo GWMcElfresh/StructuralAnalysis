@@ -26,11 +26,11 @@ RUN apt-get update && apt-get install -y \
 
 #setup MGLTools (requires python 2.7 - oof)
 WORKDIR /opt
-RUN wget https://ccsb.scripps.edu/mgltools/download/462/mgltools_x86_64Linux2_1.5.7.tar.gz && \
-    tar -xvzf mgltools_x86_64Linux2_1.5.7.tar.gz && \
-    cd mgltools_x86_64Linux2_1.5.7 && \
+RUN wget https://ccsb.scripps.edu/mgltools/download/491/mgltools_x86_64Linux2_1.5.7p1.tar.gz && \
+    tar -xvzf mgltools_x86_64Linux2_1.5.7p1.tar.gz && \
+    cd mgltools_x86_64Linux2_1.5.7p1.tar.gz && \
     yes yes | ./install.sh && \
-    rm ../mgltools_x86_64Linux2_1.5.7.tar.gz
+    rm ../mgltools_x86_64Linux2_1.5.7p1.tar.gz
 
 #pop MGLTools into PATH
 ENV PATH="/opt/mgltools_x86_64Linux2_1.5.7/bin:/opt/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24:$PATH"

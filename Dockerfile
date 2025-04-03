@@ -68,6 +68,12 @@ RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
     conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \
     pip install vina"
 
+RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
+    conda create -n mordred python=3.9.21 && \
+    conda activate mordred && \
+    conda config --env --add channels conda-forge && \
+    conda install -c rdkit -c mordred-descriptor mordred"
+
 #verify install:
 RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'
 

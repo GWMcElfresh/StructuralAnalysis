@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /opt
 RUN wget https://ccsb.scripps.edu/mgltools/download/491/mgltools_x86_64Linux2_1.5.7p1.tar.gz && \
     tar -xvzf mgltools_x86_64Linux2_1.5.7p1.tar.gz && \
-    cd mgltools_x86_64Linux2_1.5.7p1.tar.gz && \
+    cd mgltools_x86_64Linux2_1.5.7 && \
     yes yes | ./install.sh && \
     rm ../mgltools_x86_64Linux2_1.5.7p1.tar.gz
 

@@ -78,6 +78,9 @@ RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
 #grab a UV install, TODO: consider swapping fully to UV from conda envs above. 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
 
+#add uv to path
+ENV PATH="$PATH:$HOME/.local/bin"
+
 #install boltz and a venv for it
 RUN cd / && \
     git clone https://github.com/jwohlwend/boltz.git && \

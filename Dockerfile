@@ -75,19 +75,12 @@ RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
     conda config --env --add channels conda-forge && \
     conda install -c rdkit -c mordred-descriptor mordred"
 
-#grab a UV install, TODO: consider swapping fully to UV from conda envs above. 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
-
-#add uv to path
-ENV PATH="$PATH:$HOME/.local/bin"
-
-#install boltz and a venv for it
-RUN cd / && \
-    git clone https://github.com/jwohlwend/boltz.git && \
-    uv venv boltz_venv --python 3.12 && \
-    boltz_venv\Scripts\activate && \
-    cd boltz \
-    uv pip install -e .
+RUN pip install uv \
+ && cd / && git clone https://github.com/jwohlwend/boltz.git \
+ && uv venv boltz_venv --python 3.12 \
+ && . boltz_venv/bin/activate \
+ && cd boltz \
+ && uv pip install -e .
 
 #verify install:
 RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'

@@ -47,7 +47,7 @@ ENV PATH="/opt/conda/bin:$PATH"
 RUN conda init && conda config --set always_yes yes
 
 #activate conda environment (python 3.12)
-RUN conda create -n openmm-env python=3.12.10 && \
+RUN conda create -n openmm-env python=3.12 && \
     echo "conda activate openmm-env" >> ~/.bashrc
 
 #get latest ambertools from conda
@@ -63,14 +63,14 @@ SHELL ["bash", "-c"]
 
 #install a vina env
 RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
-    conda create -n vina python=3.12.10 && \
+    conda create -n vina python=3.12 && \
     conda activate vina && \
     conda config --env --add channels conda-forge && \
     conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \
     pip install vina"
 
 RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
-    conda create -n mordred python=3.12.10 && \
+    conda create -n mordred python=3.12 && \
     conda activate mordred && \
     conda config --env --add channels conda-forge && \
     conda install -c rdkit -c mordred-descriptor mordred"

@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     cmake \
     gfortran \
     wget \
+    curl \
     git \
     libnetcdf-dev \
     libopenmpi-dev openmpi-bin \
@@ -45,8 +46,8 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 ENV PATH="/opt/conda/bin:$PATH"
 RUN conda init && conda config --set always_yes yes
 
-#activate conda environment (python 3.9)
-RUN conda create -n openmm-env python=3.9.21 && \
+#activate conda environment (python 3.12)
+RUN conda create -n openmm-env python=3.12.10 && \
     echo "conda activate openmm-env" >> ~/.bashrc
 
 #get latest ambertools from conda
@@ -62,17 +63,28 @@ SHELL ["bash", "-c"]
 
 #install a vina env
 RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
-    conda create -n vina python=3.9.21 && \
+    conda create -n vina python=3.12.10 && \
     conda activate vina && \
     conda config --env --add channels conda-forge && \
     conda install -c conda-forge numpy swig boost-cpp libboost sphinx sphinx_rtd_theme && \
     pip install vina"
 
 RUN bash -c "source /opt/conda/etc/profile.d/conda.sh && \
-    conda create -n mordred python=3.9.21 && \
+    conda create -n mordred python=3.12.10 && \
     conda activate mordred && \
     conda config --env --add channels conda-forge && \
     conda install -c rdkit -c mordred-descriptor mordred"
+
+#grab a UV install, TODO: consider swapping fully to UV from conda envs above. 
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
+
+#install boltz and a venv for it
+RUN cd / && \
+    git clone https://github.com/jwohlwend/boltz.git && \
+    uv venv boltz_venv --python 3.12 && \
+    boltz_venv\Scripts\activate && \
+    cd boltz \
+    uv pip install -e .
 
 #verify install:
 RUN /bin/bash -c 'source activate openmm-env && python3 -c "import openmm; print(openmm.version.version)"'
